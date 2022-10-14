@@ -5,62 +5,35 @@
   import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
   function FirstScreen() {
-    const [direction, setDirection] = useState("ltr");
+    const [selectedValue, setSelectedValue] = useState('ltr');
+    const values = ['ltr', 'rtl'];
 
     return (
-      <PreviewLayout
-        label="direction"
-        selectedValue={direction}
-        values={["ltr", "rtl"]}
-        setSelectedValue={setDirection}>
-        <View
-          style={[styles.box, { backgroundColor: "powderblue" }]}
-        />
-        <View
-          style={[styles.box, { backgroundColor: "skyblue" }]}
-        />
-        <View
-          style={[styles.box, { backgroundColor: "steelblue" }]}
-        />
-      </PreviewLayout>
-    );
+      <View>
+        <View>
+          {values.map(value => (
+            <TouchableOpacity 
+              key = {value} 
+              onPress = {() => setSelectedValue(value)} 
+              style={[styles.button, selectedValue === value && styles.selected]}>
+                <Text
+                  style = {[
+                    styles.buttonLabel,
+                    selectedValue === value && styles.selectedLabel,
+                  ]}>
+                  {value}
+                </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <View style = {[styles.container, {direction: selectedValue}]}>
+          <View style = {{width: 50, height: 50, backgroundColor: '#EE2C38'}}/>
+          <View style = {{width: 50, height: 50, backgroundColor: '#FAA030'}}/>
+          <View style = {{width: 50, height: 50, backgroundColor: '#32B76C'}}/>
+        </View>
+      </View>
+    )
   }
-
-  const PreviewLayout = ({
-    label,
-    children,
-    values,
-    selectedValue,
-    setSelectedValue,
-  }) => (
-    <View style={{ padding: 10, flex: 1 }}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.row}>
-        {values.map((value) => (
-          <TouchableOpacity
-            key={value}
-            onPress={() => setSelectedValue(value)}
-            style={[
-              styles.button,
-              selectedValue === value && styles.selected,
-            ]}
-          >
-            <Text
-              style={[
-                styles.buttonLabel,
-                selectedValue === value && styles.selectedLabel,
-              ]}
-            >
-              {value}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <View style={[styles.container, { [label]: selectedValue }]}>
-        {children}
-      </View>
-    </View>
-  );
 
   function SecondScreen() {
     const [position, setPosition] = useState('relative');
