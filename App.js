@@ -62,10 +62,6 @@
     </View>
   );
 
-  function ThirdScreen() {
-    <Text>This is the third page</Text>
-  }
-
   function SecondScreen() {
     const [position, setPosition] = useState('relative');
     const values = ['relative', 'absolute'];
@@ -127,6 +123,68 @@
     );
   }
 
+  function ThirdScreen() {
+    const [justifyContent, setJustifyContent] = useState("flex-start");
+
+  return (
+    <PreviewLayout3
+      label="justifyContent"
+      selectedValue={justifyContent}
+      values={[
+        "flex-start",
+        "flex-end",
+        "center",
+        "space-between",
+        "space-around",
+        "space-evenly",
+      ]}
+      setSelectedValue={setJustifyContent}
+    >
+      <View
+        style={[styles.box, { backgroundColor: "powderblue" }]}
+      />
+      <View
+        style={[styles.box, { backgroundColor: "skyblue" }]}
+      />
+      <View
+        style={[styles.box, { backgroundColor: "steelblue" }]}
+      />
+    </PreviewLayout3>
+  );
+  }
+  const PreviewLayout3 = ({
+    label,
+    children,
+    values,
+    selectedValue,
+    setSelectedValue,
+  }) => (
+    <View style={{ padding: 10, flex: 1 }}>
+      <Text style={styles.label}>{label}</Text>
+      <View style={styles.row}>
+        {values.map((value) => (
+          <TouchableOpacity
+            key={value}
+            onPress={() => setSelectedValue(value)}
+            style={[styles.button, selectedValue === value && styles.selected]}
+          >
+            <Text
+              style={[
+                styles.buttonLabel,
+                selectedValue === value && styles.selectedLabel,
+              ]}
+            >
+              {value}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <View style={[styles.container, { [label]: selectedValue }]}>
+        {children}
+      </View>
+    </View>
+  );
+
   const Tab = createBottomTabNavigator();
 
   function MyTabs() {
@@ -134,7 +192,7 @@
       <Tab.Navigator>
         <Tab.Screen name="direction" component={FirstScreen} />
         <Tab.Screen name="position" component={SecondScreen} />
-        <Tab.Screen name="third" component={ThirdScreen} />
+        <Tab.Screen name="JustifyContent" component={ThirdScreen} />
       </Tab.Navigator>
     );
   }
